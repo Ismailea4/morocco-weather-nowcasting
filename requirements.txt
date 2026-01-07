@@ -1,0 +1,16 @@
+satpy
+pyresample
+xarray
+numpy
+pandas
+matplotlib
+pdbufr
+netCDF4
+h5py
+scipy
+scikit-image
+cartopy
+dask
+# Choose one ML framework and pin later
+# torch
+# tensorflow

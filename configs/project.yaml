@@ -1,0 +1,18 @@
+project:
+  name: ai-meteorologist
+roi:
+  lat_min: 21.0
+  lat_max: 36.0
+  lon_min: -17.0
+  lon_max: -1.0
+  resolution_m: 3000
+satellite:
+  source: EUMETSAT MSG SEVIRI
+  interval_minutes: 15
+wind:
+  source: EUMETSAT HRW BUFR
+paths:
+  raw: data/raw
+  sat_processed: data/processed/satellite
+  wind_processed: data/processed/wind
+  combined: data/combined

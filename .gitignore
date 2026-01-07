@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Data files - do not commit large datasets
+data/raw/
+data/processed/
+data/combined/
+processed_data/
+morocco_processed_dataset/
+*.npz
+*.nc
+*.nat
+*.bufr
+*.zip
+*.tar.gz
+*.hdf
+*.h5
+
+# Model artifacts
+models/baseline/
+models/vit/
+models/*.pth
+models/*.pt
+models/*.h5
+models/*.ckpt
+*.safetensors
+
+# Experiment outputs
+experiments/*/run_*/
+experiments/**/checkpoints/
+experiments/**/*.pth
+
+# Reports and visualizations
+reports/evaluation/*.png
+reports/evaluation/*.jpg
+reports/evaluation/*.mp4
+reports/evaluation/*.gif
+reports/evaluation/*.avi
+
+# Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store
+*.bak
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+
+# EUMETSAT credentials (never commit!)
+.eumdac_credentials
+credentials.yaml
+secrets.yaml

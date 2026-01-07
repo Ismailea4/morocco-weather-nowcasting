@@ -1,0 +1,9 @@
+{
+  "teams": {
+    "data_engineer": [1,2,3,4,5],
+    "ml_engineer": [6,7,8,9],
+    "integration_evaluator": [10,11,12]
+  },
+  "sequence_length": 6,
+  "prediction_horizon": 1
+}
