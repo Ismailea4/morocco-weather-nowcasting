@@ -1,3 +1,4 @@
+
 # Morocco Weather Nowcasting
 
 A deep learning project for short-term weather forecasting (0-4 hours) over Northern Morocco using satellite imagery from Meteosat SEVIRI and wind data from EUMETSAT HRW.
@@ -12,31 +13,26 @@ This project implements state-of-the-art deep learning models for **weather nowc
 - **Temporal resolution**: 15-minute cadence predictions
 
 ### Models
+
 1. **Baseline**: ConvLSTM encoder-decoder for spatiotemporal forecasting
 2. **Advanced**: Vision Transformer (ViT) with temporal fusion for enhanced spatial pattern recognition
 
 ### Key Features
+
 - End-to-end pipeline from raw satellite data to predictions
 - Multi-channel weather data fusion (satellite + wind)
 - Comprehensive evaluation metrics (RMSE, MAE, SSIM, CSI, POD, FAR)
 - Visualization of predictions and attention maps
 - Reproducible experiments with configuration management
 
-## 🎯 Suggested GitHub Repository Name
-
-**`morocco-weather-nowcasting`**
-
-Alternative names:
-- `seviri-weather-forecasting`
-- `satellite-nowcast-morocco`
-- `ai-meteorologist-morocco`
-
 ## 👥 Team Structure
 
 This project is organized into three specialized roles:
 
 ### 1. Data Engineer
+
 **Responsibilities**: Data acquisition, preprocessing, and pipeline management
+
 - EUMETSAT data ingestion (SEVIRI & HRW)
 - Satellite image preprocessing with Satpy
 - Wind field gridding from BUFR format
@@ -45,7 +41,9 @@ This project is organized into three specialized roles:
 📋 [See detailed deliverables](team/data-engineer/DELIVERABLES.md)
 
 ### 2. ConvLSTM Baseline Engineer
+
 **Responsibilities**: Baseline model development and evaluation
+
 - Dataset loader implementation
 - ConvLSTM architecture design and training
 - Comprehensive testing and metrics
@@ -54,7 +52,9 @@ This project is organized into three specialized roles:
 📋 [See detailed deliverables](team/convlstm-engineer/DELIVERABLES.md)
 
 ### 3. ViT Advanced Model Engineer
+
 **Responsibilities**: Advanced model development and comparative analysis
+
 - Vision Transformer architecture for weather prediction
 - Advanced training techniques and optimization
 - Attention visualization and interpretability
@@ -105,31 +105,33 @@ morocco-weather-nowcasting/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Python 3.8+
 - EUMETSAT Data Store credentials (for data ingestion)
-- ~500 GB storage for pilot dataset
+- ~50 GB storage for pilot dataset
 - GPU recommended for model training (CUDA-compatible)
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/morocco-weather-nowcasting.git
    cd morocco-weather-nowcasting
    ```
-
 2. **Create virtual environment**
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
-
 3. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
-
 4. **Configure EUMETSAT credentials**
+
    ```bash
    # Set up your EUMETSAT API credentials
    export EUMETSAT_KEY="your_key_here"
@@ -139,6 +141,7 @@ morocco-weather-nowcasting/
 ### Data Pipeline Quick Start
 
 #### 1. Ingest Raw Data
+
 ```bash
 # Download satellite and wind data for a date range
 python src/data/eumetsat_ingest.py \
@@ -149,6 +152,7 @@ python src/data/eumetsat_ingest.py \
 ```
 
 #### 2. Preprocess Satellite Data
+
 ```bash
 # Process SEVIRI images to cropped, calibrated .npz arrays
 python src/preprocess/satpy_pipeline.py \
@@ -158,6 +162,7 @@ python src/preprocess/satpy_pipeline.py \
 ```
 
 #### 3. Process Wind Data
+
 ```bash
 # Grid HRW wind vectors to match satellite resolution
 python src/preprocess/wind_gridding.py \
@@ -167,6 +172,7 @@ python src/preprocess/wind_gridding.py \
 ```
 
 #### 4. Create Combined Dataset
+
 ```bash
 # Align and combine satellite + wind data
 python src/preprocess/create_combined.py \
@@ -179,6 +185,7 @@ python src/preprocess/create_combined.py \
 ### Model Training Quick Start
 
 #### Train Baseline ConvLSTM
+
 ```bash
 # Train the ConvLSTM baseline model
 python src/train/train_baseline.py \
@@ -189,11 +196,13 @@ python src/train/train_baseline.py \
 ```
 
 Expected output:
+
 - Model checkpoints in `models/baseline/`
 - Training logs in `experiments/baseline_convlstm/baseline_run_001/`
 - Metrics and visualizations in `reports/evaluation/baseline/`
 
 #### Train ViT Advanced Model
+
 ```bash
 # Train the Vision Transformer model
 python src/train/train_vit.py \
@@ -204,11 +213,13 @@ python src/train/train_vit.py \
 ```
 
 Expected output:
+
 - Model checkpoints in `models/vit/`
 - Training logs in `experiments/vit_nowcasting/vit_run_001/`
 - Metrics and visualizations in `reports/evaluation/vit/`
 
 #### Evaluate Models
+
 ```bash
 # Evaluate baseline model on test set
 python src/eval/evaluate.py \
@@ -226,6 +237,7 @@ python src/eval/evaluate.py \
 ```
 
 #### Compare Models
+
 ```bash
 # Generate comparative analysis
 python src/eval/compare_models.py \
@@ -237,19 +249,23 @@ python src/eval/compare_models.py \
 ## 📊 Dataset
 
 ### Sources
+
 - **Satellite**: EUMETSAT Meteosat Second Generation (MSG) SEVIRI Level 1B
+
   - Product: `EO:EUM:DAT:MSG:HRSEVIRI`
   - Channels: IR_108, IR_120, VIS006, VIS008, WV_062, WV_073
   - Cadence: 15 minutes
   - Format: Native (.nat) or HRIT
-
 - **Wind**: EUMETSAT High Resolution Winds (HRW)
+
   - Atmospheric Motion Vectors from tracked cloud features
   - Format: BUFR
   - Variables: U/V components, wind speed, direction, pressure level
 
 ### Processed Dataset Structure
+
 Each combined sample (`combined_YYYYmmdd_HHMMSS.npz`) contains:
+
 ```python
 {
     'satellite': (H, W, C_sat),  # Multi-channel satellite imagery
@@ -264,11 +280,13 @@ Each combined sample (`combined_YYYYmmdd_HHMMSS.npz`) contains:
 ## 🔬 Evaluation Metrics
 
 ### Continuous Metrics
+
 - **RMSE** (Root Mean Squared Error): Per-channel prediction accuracy
 - **MAE** (Mean Absolute Error): Average prediction deviation
 - **SSIM** (Structural Similarity Index): Spatial pattern preservation
 
 ### Event-Based Metrics
+
 - **CSI** (Critical Success Index): Overall detection skill
 - **POD** (Probability of Detection): Hit rate for events
 - **FAR** (False Alarm Rate): False positive rate
@@ -297,6 +315,7 @@ Each combined sample (`combined_YYYYmmdd_HHMMSS.npz`) contains:
 ## 🔄 Reproducibility
 
 All experiments are designed to be fully reproducible:
+
 - Configuration files specify all hyperparameters
 - Random seeds are fixed and logged
 - Dataset versions tracked via timestamps
@@ -305,6 +324,7 @@ All experiments are designed to be fully reproducible:
 ## 🤝 Contributing
 
 Each team member should:
+
 1. Create feature branches for new work
 2. Document code with docstrings and comments
 3. Update relevant `DELIVERABLES.md` upon completion
@@ -318,11 +338,13 @@ Each team member should:
 
 - EUMETSAT for providing open access to MSG/SEVIRI and HRW data
 - Satpy and Pyresample communities for excellent geospatial tools
-- [Add your institution/university if applicable]
+- ENSIAS
 
 ## 📧 Contact
 
-[Add team contact information or links to individual profiles]
+* Ismail ELADRAOUI
+* Saad QACIF
+* Youssra TAFIH
 
 ---
 
