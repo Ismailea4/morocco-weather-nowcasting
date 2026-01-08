@@ -1,0 +1,5 @@
+{
+  "best_checkpoint": "models/vit/phase2_verify/best.pt",
+  "last_checkpoint": "models/vit/phase2_verify/last.pt",
+  "forecasts_npz": "reports/evaluation/vit/phase2_verify/forecasts.npz"
+}

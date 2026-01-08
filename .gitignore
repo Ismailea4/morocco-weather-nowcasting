@@ -19,6 +19,7 @@ htmlcov/
 *.log
 
 # Data files - do not commit large datasets
+data/
 data/raw/
 data/processed/
 data/combined/
@@ -34,13 +35,7 @@ morocco_processed_dataset/
 *.h5
 
 # Model artifacts
-models/baseline/
-models/vit/
-models/*.pth
-models/*.pt
-models/*.h5
-models/*.ckpt
-*.safetensors
+# (Intentionally NOT ignored so trained checkpoints can be versioned.)
 
 # Experiment outputs
 experiments/*/run_*/

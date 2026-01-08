@@ -1,0 +1,28 @@
+{
+  "run_id": "vit_15ep",
+  "timestamp": "2026-01-08T12:43:13.915752",
+  "python": "3.12.6",
+  "torch": "2.9.1+cpu",
+  "cuda_available": false,
+  "device": "cpu",
+  "seed": 42,
+  "platform": "Windows-11-10.0.22631-SP0",
+  "git_hash": "a789e830cbf90d255ae7e563cfa24c76c4d33d87",
+  "cpu_count": 12,
+  "torch_threads": 10,
+  "data_dir": "data/combined",
+  "data_files_total": 67,
+  "dataset_fingerprint": "c91338c25fa84f3c7caedf39037fbafef4a2431ee4a97923bcb4ea3ba78b0973",
+  "longest_contiguous_segment": [
+    0,
+    64
+  ],
+  "train_file_slice": [
+    0,
+    45
+  ],
+  "val_file_slice": [
+    51,
+    64
+  ]
+}

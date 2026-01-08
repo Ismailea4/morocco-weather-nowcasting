@@ -1,0 +1,43 @@
+seed: 42
+data:
+  data_dir: data/combined
+  sequence_length: 6
+  t_in: 4
+  t_out: 2
+  image_size: 256
+  in_channels: 4
+  out_channels: 4
+model:
+  image_size: 256
+  patch_size: 16
+  embed_dim: 256
+  depth: 6
+  num_heads: 8
+  mlp_ratio: 4.0
+  dropout: 0.1
+  attn_dropout: 0.0
+  temporal_fusion: attention
+  temporal_heads: 4
+  t_out: 2
+train:
+  epochs: 5
+  batch_size: 4
+  num_workers: 0
+  optimizer: adamw
+  lr: 0.001
+  weight_decay: 0.0001
+  warmup_steps: 100
+  total_steps: 1000
+  min_lr: 3.0e-05
+  grad_clip: 1.0
+  amp: true
+logging:
+  experiment_root: experiments/vit_nowcasting
+  checkpoints_dir: models/vit
+  report_dir: reports/evaluation/vit
+  log_every_steps: 25
+  export_forecasts: true
+  export_batches: 8
+  export_persistence_baseline: true
+metrics:
+  event_threshold: 0.5

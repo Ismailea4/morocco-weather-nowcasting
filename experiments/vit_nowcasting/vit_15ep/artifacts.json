@@ -1,0 +1,5 @@
+{
+  "best_checkpoint": "models/vit/vit_15ep/best.pt",
+  "last_checkpoint": "models/vit/vit_15ep/last.pt",
+  "forecasts_npz": "reports/evaluation/vit/vit_15ep/forecasts.npz"
+}

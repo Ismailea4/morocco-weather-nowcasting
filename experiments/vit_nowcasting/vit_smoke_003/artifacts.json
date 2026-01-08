@@ -1,0 +1,5 @@
+{
+  "best_checkpoint": "C:/Users/PC/Desktop/ts/morocco-weather-nowcasting/models/vit/vit_smoke_003/best.pt",
+  "last_checkpoint": "C:/Users/PC/Desktop/ts/morocco-weather-nowcasting/models/vit/vit_smoke_003/last.pt",
+  "forecasts_npz": "C:/Users/PC/Desktop/ts/morocco-weather-nowcasting/reports/evaluation/vit/vit_smoke_003/forecasts.npz"
+}
