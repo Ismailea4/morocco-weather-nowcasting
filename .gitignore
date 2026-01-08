@@ -1,0 +1,9 @@
+# Exclusions demandées
+.qodo/
+dataset/morocco_processed_dataset/
+
+# Recommandations générales (non bloquantes)
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env

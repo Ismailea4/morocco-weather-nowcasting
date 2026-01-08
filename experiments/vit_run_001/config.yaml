@@ -1,0 +1,20 @@
+batch_size: 1
+data_dir: dataset
+depths:
+- 1
+- 1
+- 1
+- 1
+embed_dim: 48
+experiment_dir: experiments/vit_run_001
+forecast_horizon: 1
+input_channels: 4
+lr: 0.0001
+num_epochs: 5
+num_heads:
+- 3
+- 6
+- 12
+- 12
+sequence_length: 3
+window_size: 7

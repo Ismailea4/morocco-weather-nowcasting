@@ -1,0 +1,10 @@
+Alerte(s) météo — Morocco — 20200321_120000
+-------------------------------------------
+- [WARNING] Alerte vent fort (WIND_STRONG)
+- [WATCH] Risque grêle (HAIL_RISK)
+- [INFO] Instabilité convective (CONVECTIVE_INSTABILITY)
+
+Indicateurs:
+  • Vent max: 12.5 m/s
+  • Temp moyenne: 271.8 K
+  • Shear: 11.2 m/s
