@@ -1,0 +1,13 @@
+batch_size: 1
+data_dir: dataset
+experiment_dir: experiments/baseline_run_001
+forecast_horizon: 1
+hidden_dim: 16
+input_channels: 4
+kernel_size:
+- 3
+- 3
+lr: 0.001
+num_epochs: 10
+num_layers: 1
+sequence_length: 3
