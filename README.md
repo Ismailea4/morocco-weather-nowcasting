@@ -24,6 +24,7 @@ This project implements state-of-the-art deep learning models for **weather nowc
 - Comprehensive evaluation metrics (RMSE, MAE, SSIM, CSI, POD, FAR)
 - Visualization of predictions and attention maps
 - Reproducible experiments with configuration management
+- **🤖 AI Weather Agent**: Interactive LLM-powered assistant using ReAct pattern for real-time weather queries
 
 ## 👥 Team Structure
 
@@ -67,7 +68,8 @@ This project is organized into three specialized roles:
 ```
 morocco-weather-nowcasting/
 ├── configs/                      # Configuration files
-│   └── project.yaml             # Project-wide settings (ROI, paths)
+│   ├── project.yaml             # Project-wide settings (ROI, paths)
+│   └── agent_config.yaml        # AI agent configuration
 ├── data/                        # Data directory (not in git)
 │   ├── raw/                     # Raw satellite and wind files
 │   ├── processed/               # Preprocessed data
@@ -84,7 +86,15 @@ morocco-weather-nowcasting/
 │   └── evaluation/
 │       ├── baseline/
 │       └── vit/
+├── docs/                        # Documentation
+│   ├── VIT_ARCHITECTURE.md
+│   └── AGENT_EXAMPLES.md        # AI agent example queries
 ├── src/                        # Source code
+│   ├── agent/                  # AI Weather Agent (ReAct)
+│   │   ├── react_agent.py      # Core ReAct implementation
+│   │   ├── weather_tools.py    # Weather prediction tools
+│   │   ├── chat_interface.py   # Interactive chat interface
+│   │   └── run_agent.py        # CLI runner
 │   ├── data/                   # Data ingestion scripts
 │   ├── preprocess/             # Preprocessing pipelines
 │   ├── datasets/               # PyTorch Dataset classes
@@ -110,6 +120,7 @@ morocco-weather-nowcasting/
 - EUMETSAT Data Store credentials (for data ingestion)
 - ~50 GB storage for pilot dataset
 - GPU recommended for model training (CUDA-compatible)
+- **LLM API key** (for AI Weather Agent): OpenAI, Groq (free tier), or Anthropic
 
 ### Installation
 
@@ -130,13 +141,203 @@ morocco-weather-nowcasting/
    ```bash
    pip install -r requirements.txt
    ```
-4. **Configure EUMETSAT credentials**
+4. **Configure EUMETSAT credentials** (for data pipeline)
 
    ```bash
    # Set up your EUMETSAT API credentials
    export EUMETSAT_KEY="your_key_here"
    export EUMETSAT_SECRET="your_secret_here"
    ```
+
+5. **Configure LLM API** (for AI Weather Agent)
+
+   ```bash
+   # Option 1: OpenAI (free trial credits available)
+   export OPENAI_API_KEY="your_openai_key"
+   
+   # Option 2: Groq (fast inference, free tier - RECOMMENDED)
+   export GROQ_API_KEY="your_groq_key"
+   
+   # Option 3: Anthropic Claude
+   export ANTHROPIC_API_KEY="your_anthropic_key"
+   ```
+
+   Get free API keys:
+   - **Groq** (Recommended): [https://console.groq.com](https://console.groq.com) - Fast inference with generous free tier
+   - **OpenAI**: [https://platform.openai.com](https://platform.openai.com) - Free trial credits
+   - **Anthropic**: [https://console.anthropic.com](https://console.anthropic.com)
+
+## 🤖 AI Weather Agent (Interactive Demo)
+
+The Morocco Weather Agent is an AI-powered assistant that uses the ReAct (Reason + Act) pattern to answer weather queries intelligently. It decides which weather tools to call based on your questions and provides comprehensive, safety-focused responses.
+
+### Quick Start with Agent
+
+```bash
+# Interactive chat mode (recommended for first-time users)
+python -m src.agent.run_agent
+
+# Single query mode
+python -m src.agent.run_agent -q "Is it safe for a helicopter flight to Ceuta?"
+
+# Use Groq for faster, free inference
+python -m src.agent.run_agent --provider groq
+
+# Use specific model
+python -m src.agent.run_agent --provider openai --model gpt-4
+```
+
+### Example Conversations
+
+**Flight Safety Assessment:**
+```
+You: Is it safe for a helicopter flight to Ceuta right now?
+
+Agent Thought: I need to check comprehensive flight safety for Ceuta.
+Agent Action: get_flight_safety_assessment(location="Ceuta", aircraft_type="helicopter")
+Agent Observation: Overall assessment: NO-GO. Wind speed 45 knots exceeds limits.
+
+Agent: No, it is not safe for helicopter operations to Ceuta right now. The current 
+wind speed is 23.5 m/s (45.7 knots), which exceeds the safe limit of 20 m/s for 
+helicopters. Wind gusts are reaching 28 m/s (54.4 knots). I strongly recommend 
+waiting for winds to decrease before attempting the flight.
+```
+
+**Multi-Factor Weather Query:**
+```
+You: What are the weather conditions in Tangier?
+
+Agent: Let me check multiple weather factors for Tangier.
+[Calls: get_wind_conditions, get_visibility_conditions, get_temperature_conditions]
+
+Agent: Current conditions in Tangier:
+
+🌬️ Wind: 12.3 m/s (23.9 knots) from 285°, moderate wind. Gusts up to 15.8 m/s.
+👁️ Visibility: Excellent at 15 km, clear conditions suitable for flight.
+🌡️ Temperature: 18.4°C (65.1°F), comfortable conditions.
+⚠️ Assessment: Moderate wind conditions. Safe for commercial aviation but 
+   approaching caution limits for light aircraft and helicopters.
+```
+
+**Severe Weather Detection:**
+```
+You: Are there any weather hazards in Casablanca?
+
+Agent: [Calls detect_severe_weather]
+
+Agent: Currently no severe weather detected in Casablanca. Conditions are favorable 
+with light winds (8.2 m/s), good visibility (12 km), and no precipitation. All 
+parameters are within safe limits for flight operations.
+```
+
+### Agent Capabilities
+
+The agent has access to 5 specialized weather tools:
+
+1. **`get_wind_conditions`** - Surface and upper-level winds, wind shear
+2. **`get_visibility_conditions`** - Visibility, cloud cover, fog risk
+3. **`get_temperature_conditions`** - Temperature, humidity, icing risk
+4. **`detect_severe_weather`** - Thunderstorms, hazards, risk assessment
+5. **`get_flight_safety_assessment`** - Comprehensive GO/NO-GO decision
+
+The agent autonomously decides which tools to use based on your question!
+
+### Supported Locations
+
+**Moroccan Cities**: Ceuta, Tangier, Casablanca, Rabat, Marrakech, Fes, Agadir, Tetouan, Nador, Oujda, Meknes, Kenitra, Safi
+
+**Coordinates**: You can also use `latitude,longitude` format (e.g., "35.8,-5.3")
+
+### Interactive Commands
+
+- `/help` - Show help and available commands
+- `/reset` - Reset conversation history
+- `/history` - View conversation history
+- `/quit` - Exit the agent
+
+### Agent Architecture (ReAct Pattern)
+
+```
+User Question
+     ↓
+[LLM Reasoning] ← "What information do I need?"
+     ↓
+[Tool Selection] ← "Which weather tool should I call?"
+     ↓
+[Tool Execution] ← Real-time weather data fetch
+     ↓
+[Observation] ← Process tool results
+     ↓
+[Final Answer] ← Natural language response with specific data
+```
+
+### Configuration
+
+Edit [configs/agent_config.yaml](configs/agent_config.yaml) to customize:
+
+- LLM provider and model
+- Weather thresholds for different aircraft types
+- API timeout and retry settings
+- Verbosity and output options
+
+### Example Use Cases
+
+- ✈️ **Aviation Safety**: Pre-flight weather briefings for pilots
+- 🚁 **Helicopter Operations**: Real-time go/no-go decisions
+- 🌊 **Maritime**: Coastal wind and visibility assessment
+- 📊 **Weather Analysis**: Quick insights into current conditions
+- 🎓 **Education**: Interactive weather learning tool
+
+For more examples, see [docs/AGENT_EXAMPLES.md](docs/AGENT_EXAMPLES.md).
+
+## 🧪 Testing the Agent
+
+### Quick Demo (No API Key Required)
+
+Test the weather tools directly without needing an LLM API key:
+
+```bash
+# Test all weather tools for Ceuta
+python demo_weather_tools.py --location Ceuta --all-tools
+
+# Test specific tool
+python demo_weather_tools.py --location Tangier --tool wind
+
+# Compare flight safety across multiple cities
+python demo_weather_tools.py --compare
+
+# List available locations
+python demo_weather_tools.py --list-locations
+```
+
+### Full Agent Test Suite
+
+Run automated tests with your LLM provider:
+
+```bash
+# Run all tests with Groq
+python test_agent.py --provider groq
+
+# Run specific test
+python test_agent.py --provider groq --test 1
+
+# Run with verbose output (see agent reasoning)
+python test_agent.py --provider groq --verbose
+```
+
+### Manual Testing
+
+1. Start the interactive agent
+2. Try each test query from [docs/AGENT_EXAMPLES.md](docs/AGENT_EXAMPLES.md)
+3. Verify the agent uses appropriate tools
+4. Check response quality and safety recommendations
+
+## 📚 Additional Documentation
+
+- **[Quick Start Guide](docs/AGENT_QUICKSTART.md)** - Get started in 5 minutes
+- **[Agent Architecture](docs/AGENT_ARCHITECTURE.md)** - Technical deep-dive
+- **[Example Queries](docs/AGENT_EXAMPLES.md)** - Sample questions and expected behavior
+- **[ViT Architecture](docs/VIT_ARCHITECTURE.md)** - Vision Transformer model details
 
 ### Data Pipeline Quick Start
 
@@ -304,6 +505,8 @@ Each combined sample (`combined_YYYYmmdd_HHMMSS.npz`) contains:
 - **Geospatial**: Cartopy, NetCDF4
 - **Visualization**: Matplotlib, Pillow
 - **Experiment Tracking**: Config-based with YAML, manual logging
+- **AI Agent**: LangChain-compatible ReAct pattern, OpenAI/Groq/Anthropic APIs
+- **Weather Data**: Open-Meteo API (real-time weather data)
 
 ## 📝 Development Workflow
 

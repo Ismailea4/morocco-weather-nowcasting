@@ -11,6 +11,18 @@ scipy
 scikit-image
 cartopy
 dask
+
+# ML Framework
+torch>=2.0.0
+torchvision
+
+# AI Agent dependencies
+openai>=1.0.0
+groq>=0.4.0
+anthropic>=0.18.0
+requests>=2.31.0
+pyyaml>=6.0
+
 # Choose one ML framework and pin later
 # torch
 # tensorflow
