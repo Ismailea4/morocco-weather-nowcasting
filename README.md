@@ -171,10 +171,32 @@ morocco-weather-nowcasting/
 
 The Morocco Weather Agent is an AI-powered assistant that uses the ReAct (Reason + Act) pattern to answer weather queries intelligently. It decides which weather tools to call based on your questions and provides comprehensive, safety-focused responses.
 
-### Quick Start with Agent
+### 🌐 Web Interface (Recommended)
+
+**Beautiful Streamlit interface with chat, visual safety indicators, and easy configuration!**
 
 ```bash
-# Interactive chat mode (recommended for first-time users)
+# Install Streamlit
+pip install streamlit
+
+# Launch web interface
+python launch_streamlit.py
+```
+
+The app opens at `http://localhost:8501` with:
+- 💬 Interactive chat interface
+- 🎨 Modern, responsive design
+- 🚦 Visual safety badges (GO/CAUTION/NO-GO)
+- 📝 Click-to-use example questions
+- ⚙️ Easy configuration in sidebar
+- 📊 Optional agent reasoning display
+
+**See [docs/STREAMLIT_GUIDE.md](docs/STREAMLIT_GUIDE.md) for complete guide**
+
+### 💻 Command-Line Interface
+
+```bash
+# Interactive chat mode
 python -m src.agent.run_agent
 
 # Single query mode
